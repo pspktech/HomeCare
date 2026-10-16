@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#087f8c">
+<title>Patient Dashboard | HomeCare</title>
+<style>
+:root{--teal:#087f8c;--dark:#17343c;--muted:#687d83;--bg:#f2f8f8;--line:#e0ebeb}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--dark)}
+header{background:#fff;padding:16px 5%;display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid var(--line)}
+.logo{font-size:21px;color:var(--teal);font-weight:bold}
+.demo{font-size:11px;padding:7px 10px;border-radius:20px;background:#fff0cf;color:#805400}
+.layout{display:flex;min-height:calc(100vh - 60px)}
+aside{width:200px;background:white;padding:20px 12px;border-right:1px solid var(--line)}
+aside a{display:block;text-decoration:none;color:#486168;padding:12px;border-radius:9px;margin-bottom:5px}
+aside a.active,aside a:hover{background:#e8f7f7;color:var(--teal)}
+main{padding:24px;width:100%;min-width:0}
+h1{font-size:27px;margin:0}
+h2{font-size:19px;margin-top:0}
+.muted{color:var(--muted);font-size:13px;line-height:1.6}
+.card{background:white;border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:17px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin:22px 0}
+.num{font-size:28px;font-weight:bold;margin-top:8px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.badge{font-size:12px;padding:6px 9px;border-radius:20px;background:#fff0d6;color:#805400}
+.badge.info{background:#e6f4f6;color:#08717d}
+.badge.success{background:#e8f7ed;color:#246b3c}
+button,a.btn{font:inherit;border:0;border-radius:9px;padding:11px 14px;cursor:pointer;text-decoration:none;display:inline-block}
+.primary{background:var(--teal);color:white}
+.secondary{background:white;border:1px solid var(--line);color:var(--teal)}
+.visit{border-top:1px solid var(--line);padding:15px 0}
+.visit:first-of-type{border-top:0}
+label{display:block;font-weight:bold;font-size:13px;margin:12px 0 6px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #d5e2e2;border-radius:9px;background:white;font:inherit;color:var(--dark)}
+.notice{font-size:13px;color:var(--teal);overflow-wrap:anywhere}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.actions button{flex:1;min-width:110px}
+footer{text-align:center;padding:20px;color:var(--muted);font-size:12px}
+@media(max-width:650px){
+ .layout{display:block}
+ aside{width:100%;display:flex;overflow-x:auto;padding:8px;gap:5px}
+ aside a{white-space:nowrap;margin:0}
+ main{padding:15px}
+ .stats{grid-template-columns:1fr 1fr}
+ .stats .card:last-child{grid-column:1/-1}
+ .card{padding:15px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">✚ HomeCare <span style="font-size:13px;color:#536c72">Patient</span></div>
+  <span class="demo">DEMO MODE</span>
+</header>
+
+<div class="layout">
+<aside>
+  <a class="active" href="#overview">🏠 Overview</a>
+  <a href="#bookings">📋 My Bookings</a>
+  <a href="#newbooking">🗓 Request Care</a>
+  <a href="#support">💬 Support</a>
+  <a href="index.html">🌐 Website</a>
+</aside>
+
+<main>
+<section id="overview">
+  <p class="muted">PATIENT WORKSPACE</p>
+  <h1>Welcome to HomeCare 👋</h1>
+  <p class="muted">View your demo requests and care schedule.</p>
+
+  <div class="stats">
+    <div class="card">
+      <div class="muted">Total requests</div>
+      <div class="num" id="total">2</div>
+    </div>
+    <div class="card">
+      <div class="muted">Pending</div>
+      <div class="num" id="pending">1</div>
+    </div>
+    <div class="card">
+      <div class="muted">Confirmed</div>
+      <div class="num" id="confirmed">1</div>
+    </div>
+  </div>
+</section>
+
+<section class="card" id="bookings">
+  <div class="row">
+    <h2>My Bookings</h2>
+    <span class="badge info">Sample records</span>
+  </div>
+  <p class="muted">Fictional demo requests only. These are not actual appointments.</p>
+
+  <article class="visit" data-status="Pending">
+    <div class="row">
+      <strong>HC-DEMO-201</strong>
+      <span class="badge status">Pending</span>
+    </div>
+    <p class="muted">Home nursing · 4 hours</p>
+    <p>Sample date: 22 October 2026</p>
+    <p class="muted">Nurse assignment: Awaiting confirmation</p>
+    <div class="actions">
+      <button class="secondary cancel">Cancel demo request</button>
+    </div>
+  </article>
+
+  <article class="visit" data-status="Confirmed">
+    <div class="row">
+      <strong>HC-DEMO-202</strong>
+      <span class="badge success status">Confirmed (demo)</span>
+    </div>
+    <p class="muted">Home nursing · 2 hours</p>
+    <p>Sample date: 24 October 2026</p>
+    <p class="muted">Nurse: Nurse A (fictional profile)</p>
+  </article>
+
+  <p class="notice" id="bookingNotice" role="status" aria-live="polite">
+    Demo changes remain on this page only.
+  </p>
+</section>
+
+<section class="card" id="newbooking">
+  <h2>Request Home Nursing</h2>
+  <p class="muted">Create a sample request to preview the patient workflow.</p>
+
+  <form id="requestForm">
+    <label for="service">Service</label>
+    <select id="service" required>
+      <option value="">Choose service</option>
+      <option>Home nursing</option>
+      <option>Post-hospital nursing support</option>
+      <option>Doctor-prescribed nursing care</option>
+    </select>
+
+    <label for="date">Preferred date</label>
+    <input type="date" id="date" required>
+
+    <label for="duration">Preferred duration</label>
+    <select id="duration" required>
+      <option value="">Select duration</option>
+      <option>2 hours</option>
+      <option>4 hours</option>
+      <option>8 hours</option>
+      <option>12 hours</option>
+    </select>
+
+    <label for="shift">Preferred shift</label>
+    <select id="shift" required>
+      <option value="">Select shift</option>
+      <option>Morning</option>
+      <option>Afternoon</option>
+      <option>Night</option>
+    </select>
+
+    <button type="submit" class="primary" style="margin-top:17px;width:100%">
+      Preview Request
+    </button>
+  </form>
+  <p class="muted">Do not enter real patient or medical information. This demo does not send or save requests.</p>
+  <p class="notice" id="requestNotice" role="status" aria-live="polite"></p>
+</section>
+
+<section class="card" id="support">
+  <h2>Need Help?</h2>
+  <p class="muted">For a real service, contact details should be added after the business phone and support process are established.</p>
+  <p class="muted">This demonstration does not provide live customer support or emergency medical services. For an emergency in India, call 112.</p>
+  <a href="index.html" class="btn primary">Back to HomeCare</a>
+</section>
+</main>
+</div>
+
+<footer>HomeCare · Patient Dashboard · Demonstration only</footer>
+
+<script>
+const dateInput = document.getElementById("date");
+const current = new Date();
+const today = [
+  current.getFullYear(),
+  String(current.getMonth()+1).padStart(2,"0"),
+  String(current.getDate()).padStart(2,"0")
+].join("-");
+dateInput.min = today;
+
+const demoVisits = [...document.querySelectorAll("#bookings .visit")];
+
+function refreshStats(){
+  const active = demoVisits.filter(v => v.dataset.status !== "Cancelled");
+  document.getElementById("total").textContent = active.length;
+  document.getElementById("pending").textContent =
+    active.filter(v => v.dataset.status === "Pending").length;
+  document.getElementById("confirmed").textContent =
+    active.filter(v => v.dataset.status === "Confirmed").length;
+}
+
+demoVisits.forEach(visit => {
+  const cancel = visit.querySelector(".cancel");
+  if(!cancel) return;
+
+  cancel.addEventListener("click", () => {
+    if(visit.dataset.status !== "Pending"){
+      document.getElementById("bookingNotice").textContent =
+        "Only pending demo requests can be cancelled.";
+      return;
+    }
+    visit.dataset.status = "Cancelled";
+    const badge = visit.querySelector(".status");
+    badge.textContent = "Cancelled (demo)";
+    badge.className = "badge status";
+    cancel.disabled = true;
+    cancel.textContent = "Cancelled";
+    refreshStats();
+    document.getElementById("bookingNotice").textContent =
+      "Demo request cancelled on this page. No actual booking was changed.";
+  });
+});
+
+document.getElementById("requestForm").addEventListener("submit", event => {
+  event.preventDefault();
+  if(!event.currentTarget.reportValidity()) return;
+
+  if(dateInput.value < today){
+    document.getElementById("requestNotice").textContent =
+      "Please choose today or a future date.";
+    return;
+  }
+
+  document.getElementById("requestNotice").textContent =
+    "Demo preview: " + document.getElementById("service").value +
+    " · " + dateInput.value +
+    " · " + document.getElementById("duration").value +
+    " · " + document.getElementById("shift").value +
+    ". Nothing has been submitted or saved.";
+});
+
+refreshStats();
+</script>
+</body>
+</html>
