@@ -4,75 +4,165 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HomeCare Services</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f3f7f6;color:#18332e}
-header{background:#087f6e;color:white;padding:18px 5%;display:flex;justify-content:space-between;align-items:center;gap:12px}
-header h2{margin:0}
-a{text-decoration:none}
-button{cursor:pointer;border:0;border-radius:10px;padding:12px 16px;font-weight:bold}
-.back{background:white;color:#087f6e}
-main{max-width:1000px;margin:auto;padding:25px 16px}
-h1{margin-bottom:8px}
-.intro{color:#637771;line-height:1.6}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:25px}
-.card{background:white;border-radius:18px;padding:22px;box-shadow:0 5px 20px #153c3210;display:flex;flex-direction:column}
-.emoji{font-size:38px}
-.card h3{margin:14px 0 8px}
-.card p{color:#637771;line-height:1.6;flex:1}
-.book{background:#087f6e;color:white;width:100%;margin-top:12px}
-#status{color:#087f6e;font-weight:bold}
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f7f6;
+  color: #18332e;
+}
+
+header {
+  background: #087f6e;
+  color: white;
+  padding: 18px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+header h2 { margin: 0; }
+
+a { text-decoration: none; }
+
+button {
+  cursor: pointer;
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-weight: bold;
+}
+
+.back {
+  background: white;
+  color: #087f6e;
+}
+
+main {
+  max-width: 1000px;
+  margin: auto;
+  padding: 25px 16px;
+}
+
+h1 { margin-bottom: 8px; }
+
+.intro {
+  color: #637771;
+  line-height: 1.6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-top: 25px;
+}
+
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 5px 20px #153c3210;
+  display: flex;
+  flex-direction: column;
+}
+
+.emoji { font-size: 38px; }
+
+.card h3 { margin: 14px 0 8px; }
+
+.card p {
+  color: #637771;
+  line-height: 1.6;
+  flex: 1;
+}
+
+.book {
+  background: #087f6e;
+  color: white;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.book:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+#status {
+  color: #087f6e;
+  font-weight: bold;
+}
 </style>
 </head>
+
 <body>
 <header>
   <h2>🏡 HomeCare</h2>
-  <a href="dashboard.html"><button class="back">← Dashboard</button></a>
+  <a href="dashboard.html">
+    <button class="back" type="button">← Dashboard</button>
+  </a>
 </header>
 
 <main>
   <h1>Our HomeCare Services 💚</h1>
-  <p class="intro">Choose the service you need. We’re here to make everyday care easier.</p>
-  <p id="status">Checking your login...</p>
+  <p class="intro">
+    Choose the service you need. We’re here to make everyday care easier.
+  </p>
+
+  <p id="status" role="status">Checking your login...</p>
 
   <div class="grid">
     <article class="card">
       <div class="emoji">🧹</div>
       <h3>Home Cleaning</h3>
       <p>Help with everyday home cleaning and keeping your space tidy.</p>
-      <button class="book" data-service="Home Cleaning">Select Service</button>
+      <button class="book" data-service="Home Cleaning" disabled>
+        Select Service
+      </button>
     </article>
 
     <article class="card">
       <div class="emoji">👵</div>
       <h3>Elder Care</h3>
       <p>Support with daily routines and companionship for older adults.</p>
-      <button class="book" data-service="Elder Care">Select Service</button>
+      <button class="book" data-service="Elder Care" disabled>
+        Select Service
+      </button>
     </article>
 
     <article class="card">
       <div class="emoji">🩺</div>
       <h3>Patient Care</h3>
       <p>Caregiving support at home, based on the family’s needs.</p>
-      <button class="book" data-service="Patient Care">Select Service</button>
+      <button class="book" data-service="Patient Care" disabled>
+        Select Service
+      </button>
     </article>
 
     <article class="card">
       <div class="emoji">👩‍⚕️</div>
       <h3>Nursing Care</h3>
       <p>Ask about qualified nursing support for suitable care needs.</p>
-      <button class="book" data-service="Nursing Care">Select Service</button>
+      <button class="book" data-service="Nursing Care" disabled>
+        Select Service
+      </button>
     </article>
   </div>
 </main>
 
 <script type="module">
 import { initializeApp }
-from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
-import { getAuth, onAuthStateChanged }
-from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+  from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
 
-// Copy the actual config from your working login.html.
+import { getAuth, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+
+// IMPORTANT: Copy your actual config from working login.html.
 const firebaseConfig = {
   apiKey: "AIzaSyC80FOc0oUOJwUbQtZkEZU_TnKH9JujpG0",
   authDomain: "homecare-68c01.firebaseapp.com",
@@ -83,30 +173,39 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-let currentUser = null;
 const status = document.getElementById("status");
+const buttons = document.querySelectorAll("[data-service]");
 
-onAuthStateChanged(auth, user => {
+onAuthStateChanged(auth, (user) => {
   if (!user) {
     window.location.replace("login.html");
     return;
   }
-  currentUser = user;
+
   status.textContent = "Welcome! Select a service to continue.";
+
+  buttons.forEach((button) => {
+    button.disabled = false;
+  });
 });
 
-document.querySelectorAll("[data-service]").forEach(button => {
+buttons.forEach((button) => {
   button.addEventListener("click", () => {
-    if (!currentUser) {
-      status.textContent = "Please wait while we verify your login.";
+    const service = button.dataset.service;
+
+    if (!service) {
+      status.textContent = "Please select a valid service.";
       return;
     }
 
-    const service = button.dataset.service;
+    button.disabled = true;
+    status.textContent = "Opening your booking form...";
+
     window.location.href =
       "bookservice.html?service=" + encodeURIComponent(service);
   });
 });
 </script>
+
 </body>
 </html>
