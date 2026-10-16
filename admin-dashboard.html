@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#087f8c">
+<title>Admin Dashboard | HomeCare</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f2f7f8;color:#19343c}
+header{background:#12313b;color:white;padding:17px 5%;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.logo{font-size:21px;font-weight:bold}
+.demo{font-size:12px;background:#fce9b5;color:#644500;padding:7px 10px;border-radius:20px}
+.layout{display:flex;min-height:calc(100vh - 60px)}
+aside{width:205px;background:white;padding:22px 14px;border-right:1px solid #e1eaea}
+aside a{display:block;padding:12px;color:#37545c;text-decoration:none;border-radius:8px;margin-bottom:6px}
+aside a.active,aside a:hover{background:#e7f7f7;color:#087f8c}
+main{padding:25px;width:100%;min-width:0}
+h1{margin:0;font-size:27px}
+.muted{color:#718187;font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:23px 0}
+.card{background:white;border:1px solid #e0eaea;border-radius:13px;padding:18px;min-width:0}
+.statnum{font-size:29px;font-weight:bold;margin-top:8px}
+h2{font-size:19px}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:580px}
+th,td{text-align:left;padding:13px 10px;border-bottom:1px solid #e8eeee;font-size:13px}
+th{color:#687a80}
+.status{background:#fff0d6;color:#8a5800;padding:5px 8px;border-radius:20px;font-size:12px}
+button,select{font:inherit;border-radius:8px;padding:10px;border:1px solid #d4e2e2;background:white}
+button{cursor:pointer}
+.primary{background:#087f8c;color:white;border:0}
+.section{margin-top:20px}
+input[type="date"]{padding:10px;border:1px solid #d4e2e2;border-radius:8px}
+#notice{color:#087f8c;font-size:14px}
+@media(max-width:700px){
+ .layout{display:block}
+ aside{width:100%;display:flex;overflow-x:auto;padding:10px;gap:5px}
+ aside a{white-space:nowrap;margin:0}
+ main{padding:17px}
+ .stats{grid-template-columns:1fr 1fr}
+ .stats .card:last-child{grid-column:1/-1}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">✚ HomeCare <span style="font-weight:normal;font-size:13px">Admin</span></div>
+  <span class="demo">DEMO MODE</span>
+</header>
+
+<div class="layout">
+<aside>
+  <a class="active" href="#overview">📊 Overview</a>
+  <a href="#bookings">📋 Bookings</a>
+  <a href="#nurses">👩‍⚕️ Nurses</a>
+  <a href="#schedule">🕒 Schedule</a>
+  <a href="index.html">🏠 Website</a>
+</aside>
+
+<main>
+<section id="overview">
+  <p class="muted">HOMECARE MANAGEMENT</p>
+  <h1>Admin Dashboard</h1>
+  <p class="muted">Manage demo bookings, staff and shift planning.</p>
+
+  <div class="stats">
+    <div class="card">
+      <div class="muted">Total demo requests</div>
+      <div class="statnum" id="total">3</div>
+    </div>
+    <div class="card">
+      <div class="muted">Pending requests</div>
+      <div class="statnum" id="pending">2</div>
+    </div>
+    <div class="card">
+      <div class="muted">Sample nurse profiles</div>
+      <div class="statnum">3</div>
+    </div>
+  </div>
+</section>
+
+<section class="card section" id="bookings">
+<h2>Booking Requests</h2>
+<p class="muted">Illustrative records only — not real patients.</p>
+<div class="tablewrap">
+<table>
+<thead><tr><th>Reference</th><th>Service</th><th>Date</th><th>Status</th><th>Assign nurse</th></tr></thead>
+<tbody id="bookingRows">
+<tr>
+<td>DEMO-001</td><td>Home nursing</td><td>Sample date</td>
+<td><span class="status">Pending</span></td>
+<td><select aria-label="Assign nurse for DEMO-001"><option value="">Unassigned</option><option>Nurse A</option><option>Nurse B</option><option>Nurse C</option></select></td>
+</tr>
+<tr>
+<td>DEMO-002</td><td>Recovery support</td><td>Sample date</td>
+<td><span class="status">Pending</span></td>
+<td><select aria-label="Assign nurse for DEMO-002"><option value="">Unassigned</option><option>Nurse A</option><option>Nurse B</option><option>Nurse C</option></select></td>
+</tr>
+<tr>
+<td>DEMO-003</td><td>Home nursing</td><td>Sample date</td>
+<td><span class="status">Assigned</span></td>
+<td><select aria-label="Assign nurse for DEMO-003"><option value="">Unassigned</option><option selected>Nurse A</option><option>Nurse B</option><option>Nurse C</option></select></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p id="notice" aria-live="polite">Sample data. Changes apply only on this page.</p>
+<button class="primary" id="save">Preview assignments</button>
+</section>
+
+<section class="card section" id="nurses">
+<h2>Nurse Directory</h2>
+<p class="muted">These are fictional demo profiles, not verified staff.</p>
+<div class="tablewrap">
+<table>
+<thead><tr><th>Profile</th><th>Availability</th><th>Verification</th></tr></thead>
+<tbody>
+<tr><td>Nurse A</td><td>Morning</td><td>Demo only</td></tr>
+<tr><td>Nurse B</td><td>Afternoon</td><td>Demo only</td></tr>
+<tr><td>Nurse C</td><td>Night</td><td>Demo only</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section class="card section" id="schedule">
+<h2>Shift Planner</h2>
+<label for="shiftDate">Choose a date</label><br><br>
+<input id="shiftDate" type="date">
+<div class="tablewrap">
+<table>
+<thead><tr><th>Shift</th><th>Time</th><th>Sample nurse</th></tr></thead>
+<tbody>
+<tr><td>Morning</td><td>6 AM – 12 PM</td><td>Nurse A</td></tr>
+<tr><td>Afternoon</td><td>12 PM – 6 PM</td><td>Nurse B</td></tr>
+<tr><td>Night</td><td>6 PM – 6 AM</td><td>Nurse C</td></tr>
+</tbody>
+</table>
+</div>
+<p class="muted">Sample schedule only. Actual shifts require availability and rest-period checks.</p>
+</section>
+</main>
+</div>
+
+<script>
+document.getElementById("save").addEventListener("click",function(){
+  const rows=[...document.querySelectorAll("#bookingRows tr")];
+  const assignments=rows.map(row=>{
+    const cells=row.querySelectorAll("td");
+    return cells[0].textContent+": "+(cells[4].querySelector("select").value||"Unassigned");
+  });
+  document.getElementById("notice").textContent=
+    "Demo preview only — "+assignments.join(" | ");
+});
+</script>
+</body>
+</html>
