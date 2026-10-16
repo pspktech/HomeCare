@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomeCare Admin Dashboard</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f7f6;color:#18332e}
+header{background:#087f6e;color:white;padding:18px 5%;display:flex;justify-content:space-between;align-items:center;gap:12px}
+header h2{margin:0;font-size:21px}
+button,select{font:inherit}
+button{cursor:pointer;border:0;border-radius:9px;padding:11px 14px;font-weight:bold}
+.back{background:white;color:#087f6e}
+main{max-width:1100px;margin:auto;padding:24px 16px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin:22px 0}
+.stat,.booking{background:white;border-radius:15px;padding:18px;box-shadow:0 5px 20px #153c3210}
+.stat strong{display:block;font-size:25px;margin-top:8px}
+#message{line-height:1.6;overflow-wrap:anywhere;color:#087f6e}
+.list{display:grid;gap:16px}
+.booking h3{margin-top:0}
+.detail{line-height:1.5;overflow-wrap:anywhere}
+.badge{display:inline-block;background:#e1f4ed;color:#087f6e;padding:7px 10px;border-radius:20px;font-weight:bold;font-size:13px}
+select{padding:10px;border:1px solid #ccd9d4;border-radius:9px;background:white;max-width:100%}
+.save{background:#087f6e;color:white}
+.row{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:14px}
+.muted{color:#637771}
+</style>
+</head>
+<body>
+<header>
+  <h2>🏡 HomeCare Admin</h2>
+  <button class="back" id="logoutBtn">Log out</button>
+</header>
+
+<main>
+  <h1>Admin Dashboard 📋</h1>
+  <p class="muted">View customer requests and manage booking status.</p>
+
+  <div class="stats">
+    <div class="stat">Total Bookings<strong id="total">—</strong></div>
+    <div class="stat">Pending<strong id="pending">—</strong></div>
+    <div class="stat">Confirmed<strong id="confirmed">—</strong></div>
+    <div class="stat">Completed<strong id="completed">—</strong></div>
+  </div>
+
+  <button class="save" id="refreshBtn">↻ Refresh Bookings</button>
+  <p id="message" role="status" aria-live="polite">Verifying admin access...</p>
+  <div class="list" id="bookingList"></div>
+</main>
+
+<script type="module">
+import {initializeApp}
+  from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+import {getAuth,onAuthStateChanged,signOut}
+  from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+import {
+  getFirestore,collection,getDocs,doc,updateDoc
+} from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC80FOc0oUOJwUbQtZkEZU_TnKH9JujpG0",
+  authDomain: "homecare-68c01.firebaseapp.com",
+  projectId: "homecare-68c01",
+  appId: "1:18183777711:web:307c5f92fa9ef00a32135a"
+};
+
+const ADMIN_UID = "IO9dJWS7OIeUv3Siiw3w4cbyKqh2";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const message = document.getElementById("message");
+const list = document.getElementById("bookingList");
+const refreshBtn = document.getElementById("refreshBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+
+let adminUser = null;
+let loading = false;
+
+function addText(parent, tag, text, className="") {
+  const el = document.createElement(tag);
+  el.textContent = text ?? "";
+  if (className) el.className = className;
+  parent.appendChild(el);
+  return el;
+}
+
+function formatDate(value) {
+  if (!value) return "Not specified";
+  const parts = value.split("-");
+  return parts.length === 3
+    ? `${parts[2]}-${parts[1]}-${parts[0]}`
+    : value;
+}
+
+function renderBooking(item) {
+  const data = item.data();
+  const card = document.createElement("article");
+  card.className = "booking";
+
+  addText(card,"h3",data.service || "HomeCare Service");
+  addText(card,"span",data.status || "pending","badge");
+
+  [
+    ["Reference",item.id],
+    ["Customer UID",data.uid],
+    ["Date",formatDate(data.date)],
+    ["Time",data.time || "Not specified"],
+    ["Phone",data.phone || "Not specified"],
+    ["Address",data.address || "Not specified"]
+  ].forEach(([label,value]) => {
+    const p = addText(card,"p","","detail");
+    addText(p,"strong",label + ": ");
+    p.appendChild(document.createTextNode(String(value)));
+  });
+
+  const row = document.createElement("div");
+  row.className = "row";
+  addText(row,"label","Update status:");
+
+  const select = document.createElement("select");
+  select.setAttribute("aria-label","New booking status");
+
+  ["pending","confirmed","completed","cancelled"].forEach(status => {
+    const option = document.createElement("option");
+    option.value = status;
+    option.textContent =
+      status.charAt(0).toUpperCase() + status.slice(1);
+    select.appendChild(option);
+  });
+
+  select.value = [
+    "pending","confirmed","completed","cancelled"
+  ].includes(data.status) ? data.status : "pending";
+
+  const save = addText(row,"button","Save Status","save");
+  save.type = "button";
+
+  save.addEventListener("click", async () => {
+    if (!adminUser || adminUser.uid !== ADMIN_UID) return;
+
+    save.disabled = true;
+    message.textContent = "Updating booking status...";
+
+    try {
+      await updateDoc(doc(db,"bookings",item.id), {
+        status: select.value
+      });
+      message.textContent = "Booking status updated successfully.";
+      await loadBookings();
+    } catch (error) {
+      console.error(error);
+      message.textContent =
+        "Status update failed. Check Firestore Rules and try again.";
+      save.disabled = false;
+    }
+  });
+
+  row.appendChild(select);
+  row.appendChild(save);
+  card.appendChild(row);
+  list.appendChild(card);
+}
+
+async function loadBookings() {
+  if (!adminUser || loading) return;
+
+  loading = true;
+  refreshBtn.disabled = true;
+  message.textContent = "Loading bookings...";
+  list.replaceChildren();
+
+  try {
+    const snapshot = await getDocs(collection(db,"bookings"));
+    const docs = snapshot.docs.sort((a,b) =>
+      (b.data().createdAt?.toMillis?.() || 0) -
+      (a.data().createdAt?.toMillis?.() || 0)
+    );
+
+    document.getElementById("total").textContent = docs.length;
+    document.getElementById("pending").textContent =
+      docs.filter(d => d.data().status === "pending").length;
+    document.getElementById("confirmed").textContent =
+      docs.filter(d => d.data().status === "confirmed").length;
+    document.getElementById("completed").textContent =
+      docs.filter(d => d.data().status === "completed").length;
+
+    if (!docs.length) {
+      message.textContent = "No bookings found yet.";
+      return;
+    }
+
+    docs.forEach(renderBooking);
+    message.textContent = `Loaded ${docs.length} booking(s).`;
+
+  } catch (error) {
+    console.error("Admin bookings error:",error);
+    message.textContent =
+      "Could not load bookings. Check admin UID and Firestore Rules.";
+  } finally {
+    loading = false;
+    refreshBtn.disabled = false;
+  }
+}
+
+onAuthStateChanged(auth,user => {
+  if (!user) {
+    window.location.replace("login.html");
+    return;
+  }
+
+  if (user.uid !== ADMIN_UID) {
+    message.textContent = "Access denied. Admin account required.";
+    window.location.replace("dashboard.html");
+    return;
+  }
+
+  adminUser = user;
+  loadBookings();
+});
+
+refreshBtn.addEventListener("click",loadBookings);
+
+logoutBtn.addEventListener("click",async () => {
+  await signOut(auth);
+  window.location.replace("login.html");
+});
+</script>
+</body>
+</html>
