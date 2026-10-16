@@ -1,0 +1,298 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#087f8c">
+<title>Nurse Dashboard | HomeCare</title>
+<style>
+:root {
+  --teal:#087f8c;
+  --dark:#15343c;
+  --muted:#6b7e84;
+  --bg:#f2f8f8;
+  --border:#e0eaea;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  color:var(--dark);
+}
+header{
+  background:white;
+  border-bottom:1px solid var(--border);
+  padding:16px 5%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.logo{font-size:21px;font-weight:bold;color:var(--teal)}
+.demo{
+  font-size:11px;font-weight:bold;
+  background:#fff0ce;color:#805300;
+  padding:7px 10px;border-radius:20px;
+}
+.layout{display:flex;min-height:calc(100vh - 60px)}
+aside{
+  width:200px;background:white;
+  padding:20px 12px;border-right:1px solid var(--border);
+}
+aside a{
+  display:block;padding:12px;
+  text-decoration:none;color:#456068;
+  border-radius:9px;margin-bottom:5px;
+}
+aside a.active,aside a:hover{
+  background:#e9f7f7;color:var(--teal);
+}
+main{padding:25px;width:100%;min-width:0}
+h1{font-size:27px;margin:0}
+h2{font-size:19px;margin-top:0}
+p{line-height:1.5}
+.muted{font-size:13px;color:var(--muted)}
+.stats{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:13px;margin:22px 0;
+}
+.card{
+  background:white;border:1px solid var(--border);
+  border-radius:14px;padding:18px;margin-bottom:17px;
+}
+.number{font-size:28px;font-weight:bold;margin-top:8px}
+.row{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:12px;flex-wrap:wrap;
+}
+.badge{
+  font-size:12px;border-radius:20px;
+  padding:6px 9px;background:#e9f7ed;color:#216b3c;
+}
+.badge.pending{background:#fff0d6;color:#855500}
+.badge.done{background:#e7efff;color:#254e9b}
+button,select,input{
+  font:inherit;padding:11px;
+  border:1px solid #d5e2e2;border-radius:9px;
+  background:white;color:var(--dark);
+}
+button{cursor:pointer}
+.primary{background:var(--teal);color:white;border-color:var(--teal)}
+.secondary{background:white;color:var(--teal)}
+label{font-size:13px;font-weight:bold;display:block;margin:13px 0 7px}
+input[type="date"]{width:100%;max-width:260px}
+.shift{padding:13px 0;border-bottom:1px solid var(--border)}
+.shift:last-child{border-bottom:0}
+.visit-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.visit-actions button{flex:1;min-width:120px}
+.notice{color:var(--teal);font-size:13px;overflow-wrap:anywhere}
+footer{text-align:center;padding:20px;color:var(--muted);font-size:12px}
+@media(max-width:650px){
+ .layout{display:block}
+ aside{width:100%;display:flex;overflow-x:auto;padding:8px;gap:5px}
+ aside a{white-space:nowrap;margin:0}
+ main{padding:15px}
+ .stats{grid-template-columns:1fr 1fr}
+ .stats .card:last-child{grid-column:1/-1}
+ .card{padding:15px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">✚ HomeCare <span style="font-size:13px;color:#567078">Nurse</span></div>
+  <span class="demo">DEMO MODE</span>
+</header>
+
+<div class="layout">
+<aside>
+  <a class="active" href="#overview">📊 Overview</a>
+  <a href="#visits">🩺 My Visits</a>
+  <a href="#availability">🗓 Availability</a>
+  <a href="#shifts">🕒 Shifts</a>
+  <a href="index.html">🏠 Website</a>
+</aside>
+
+<main>
+<section id="overview">
+  <p class="muted">NURSE WORKSPACE</p>
+  <h1>Hello, Nurse A 👋</h1>
+  <p class="muted">Manage your sample visits and availability.</p>
+
+  <div class="stats">
+    <div class="card">
+      <div class="muted">Assigned visits</div>
+      <div class="number" id="assignedCount">2</div>
+    </div>
+    <div class="card">
+      <div class="muted">In progress</div>
+      <div class="number" id="progressCount">0</div>
+    </div>
+    <div class="card">
+      <div class="muted">Completed</div>
+      <div class="number" id="completedCount">0</div>
+    </div>
+  </div>
+</section>
+
+<section class="card" id="visits">
+  <div class="row">
+    <h2>My Visits</h2>
+    <span class="badge">Sample data</span>
+  </div>
+  <p class="muted">Fictional demo assignments. No real patients are shown.</p>
+
+  <article class="shift" data-visit="HC-DEMO-101">
+    <div class="row">
+      <strong>Visit HC-DEMO-101</strong>
+      <span class="badge pending status">Assigned</span>
+    </div>
+    <p class="muted">Home nursing · Morning shift</p>
+    <p>Sample date: 20 October 2026</p>
+    <div class="visit-actions">
+      <button class="primary start">Start visit</button>
+      <button class="secondary finish">Complete visit</button>
+    </div>
+  </article>
+
+  <article class="shift" data-visit="HC-DEMO-102">
+    <div class="row">
+      <strong>Visit HC-DEMO-102</strong>
+      <span class="badge pending status">Assigned</span>
+    </div>
+    <p class="muted">Recovery support · Afternoon shift</p>
+    <p>Sample date: 21 October 2026</p>
+    <div class="visit-actions">
+      <button class="primary start">Start visit</button>
+      <button class="secondary finish">Complete visit</button>
+    </div>
+  </article>
+  <p class="notice" id="visitNotice" role="status" aria-live="polite">
+    Demo only: status changes are not sent to an administrator.
+  </p>
+</section>
+
+<section class="card" id="availability">
+  <h2>My Availability</h2>
+  <p class="muted">Select the date and shifts you would prefer to work.</p>
+
+  <label for="availableDate">Available date</label>
+  <input id="availableDate" type="date">
+
+  <label for="availableShift">Preferred shift</label>
+  <select id="availableShift">
+    <option value="Morning">Morning · 6 AM–12 PM</option>
+    <option value="Afternoon">Afternoon · 12 PM–6 PM</option>
+    <option value="Night">Night · 6 PM–6 AM</option>
+  </select>
+
+  <div style="margin-top:15px">
+    <button class="primary" id="saveAvailability">Preview availability</button>
+  </div>
+  <p class="notice" id="availabilityNotice" role="status" aria-live="polite"></p>
+</section>
+
+<section class="card" id="shifts">
+  <h2>Shift Timings</h2>
+  <div class="shift">
+    <strong>🌅 Morning</strong>
+    <p class="muted">6:00 AM – 12:00 PM</p>
+  </div>
+  <div class="shift">
+    <strong>☀️ Afternoon</strong>
+    <p class="muted">12:00 PM – 6:00 PM</p>
+  </div>
+  <div class="shift">
+    <strong>🌙 Night</strong>
+    <p class="muted">6:00 PM – 6:00 AM</p>
+  </div>
+  <p class="muted">
+    Illustrative shifts only. Actual rosters must account for visit duration,
+    travel, rest periods and handover.
+  </p>
+</section>
+
+</main>
+</div>
+
+<footer>
+HomeCare · Nurse Dashboard · Demonstration only
+</footer>
+
+<script>
+const visits = [...document.querySelectorAll("[data-visit]")];
+
+function updateCounts(){
+  const statuses = visits.map(v => v.querySelector(".status").textContent);
+  document.getElementById("assignedCount").textContent =
+    statuses.filter(s => s === "Assigned" || s === "In progress").length;
+  document.getElementById("progressCount").textContent =
+    statuses.filter(s => s === "In progress").length;
+  document.getElementById("completedCount").textContent =
+    statuses.filter(s => s === "Completed").length;
+}
+
+visits.forEach(visit => {
+  const status = visit.querySelector(".status");
+
+  visit.querySelector(".start").addEventListener("click", () => {
+    if(status.textContent !== "Assigned"){
+      document.getElementById("visitNotice").textContent =
+        "Only assigned demo visits can be started.";
+      return;
+    }
+    status.textContent = "In progress";
+    status.className = "badge status";
+    document.getElementById("visitNotice").textContent =
+      visit.dataset.visit + ": demo visit started.";
+    updateCounts();
+  });
+
+  visit.querySelector(".finish").addEventListener("click", () => {
+    if(status.textContent !== "In progress"){
+      document.getElementById("visitNotice").textContent =
+        "Start the demo visit before completing it.";
+      return;
+    }
+    status.textContent = "Completed";
+    status.className = "badge done status";
+    document.getElementById("visitNotice").textContent =
+      visit.dataset.visit + ": demo visit completed.";
+    updateCounts();
+  });
+});
+
+const dateInput = document.getElementById("availableDate");
+const now = new Date();
+const today = [
+  now.getFullYear(),
+  String(now.getMonth()+1).padStart(2,"0"),
+  String(now.getDate()).padStart(2,"0")
+].join("-");
+dateInput.min = today;
+
+document.getElementById("saveAvailability").addEventListener("click", () => {
+  if(!dateInput.value){
+    document.getElementById("availabilityNotice").textContent =
+      "Please choose an availability date.";
+    dateInput.focus();
+    return;
+  }
+  if(dateInput.value < today){
+    document.getElementById("availabilityNotice").textContent =
+      "Choose today or a future date.";
+    return;
+  }
+  document.getElementById("availabilityNotice").textContent =
+    "Demo preview: " + dateInput.value + " · " +
+    document.getElementById("availableShift").value +
+    ". Not saved to a real roster.";
+});
+
+updateCounts();
+</script>
+</body>
+</html>
