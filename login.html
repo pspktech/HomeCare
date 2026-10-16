@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HomeCare | Login</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: grid;
+      place-items: center; padding: 20px;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg,#e7f7f1,#eaf0ff);
+      color: #18352f;
+    }
+    .card {
+      width: 100%; max-width: 400px; background: white;
+      padding: 28px; border-radius: 22px;
+      box-shadow: 0 12px 35px #18352f18;
+    }
+    h1 { margin: 0 0 8px; color: #087f67; }
+    p { color: #65736f; }
+    input, button {
+      width: 100%; padding: 14px; margin-top: 13px;
+      border-radius: 10px; font-size: 16px;
+    }
+    input { border: 1px solid #d7e2de; }
+    button {
+      border: 0; background: #087f67; color: white;
+      font-weight: bold; cursor: pointer;
+    }
+    #message { overflow-wrap: anywhere; font-size: 14px; }
+    a { color: #087f67; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>HomeCare 🩺</h1>
+    <p>Login to your HomeCare account</p>
+
+    <form id="loginForm">
+      <input id="email" type="email" placeholder="Email address"
+        autocomplete="email" required>
+      <input id="password" type="password" placeholder="Password"
+        autocomplete="current-password" required>
+      <button id="loginBtn" type="submit">Login</button>
+    </form>
+
+    <p id="message" role="status"></p>
+    <p>New here? <a href="register.html">Create an account</a></p>
+    <p><a href="index.html">← Back to Home</a></p>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from
+      "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+    import {
+      getAuth, signInWithEmailAndPassword
+    } from
+      "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "PASTE_YOUR_API_KEY",
+      authDomain: "PASTE_YOUR_AUTH_DOMAIN",
+      projectId: "PASTE_YOUR_PROJECT_ID",
+      appId: "PASTE_YOUR_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const form = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+    const button = document.getElementById("loginBtn");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      message.textContent = "";
+      button.disabled = true;
+      button.textContent = "Logging in...";
+
+      try {
+        await signInWithEmailAndPassword(
+          auth,
+          document.getElementById("email").value.trim(),
+          document.getElementById("password").value
+        );
+        message.textContent =
+          "Login successful! Authentication is working.";
+        // Role-based navigation will be added after secure roles
+        // and database permissions are configured.
+      } catch (error) {
+        message.textContent =
+          error.code === "auth/invalid-credential"
+            ? "Email or password is incorrect."
+            : "Login failed: " + error.message;
+      } finally {
+        button.disabled = false;
+        button.textContent = "Login";
+      }
+    });
+  </script>
+</body>
+</html>
