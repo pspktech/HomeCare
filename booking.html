@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#087f8c">
+<title>Book Home Nursing | HomeCare</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f0f8f8;color:#18363d}
+header{padding:18px 6%;background:white;border-bottom:1px solid #deebeb}
+.logo{font-size:23px;font-weight:bold;color:#087f8c;text-decoration:none}
+main{max-width:650px;margin:28px auto;padding:0 16px}
+.card{background:white;padding:25px;border-radius:18px;border:1px solid #e0eded;box-shadow:0 8px 30px #163e3e0a}
+h1{font-size:29px;margin:5px 0}
+p{color:#65777c;line-height:1.5}
+label{display:block;font-weight:600;font-size:14px;margin:16px 0 7px}
+input,select,textarea{width:100%;padding:13px;border:1px solid #d2e0e0;border-radius:9px;font:inherit;background:white;color:#18363d}
+input:focus,select:focus,textarea:focus{outline:2px solid #087f8c}
+button{width:100%;padding:14px;border:0;border-radius:10px;background:#087f8c;color:white;font-weight:bold;font-size:16px;margin-top:20px}
+.small{font-size:12px}
+#result{display:none;background:#eaf8ef;padding:16px;border-radius:10px;margin-top:18px;overflow-wrap:anywhere}
+.back{color:#087f8c;text-decoration:none}
+</style>
+</head>
+<body>
+<header>
+<a class="logo" href="index.html">✚ HomeCare</a>
+</header>
+
+<main>
+<a class="back" href="index.html">← Back to Home</a>
+<div class="card">
+<p style="color:#087f8c;font-weight:bold">HOME NURSING REQUEST</p>
+<h1>Book a Nursing Visit</h1>
+<p>Share your preferred service and schedule. Our team will need to confirm availability.</p>
+
+<form id="bookingForm">
+<label for="patient">Patient name</label>
+<input id="patient" name="patient" maxlength="80" required placeholder="Enter patient name">
+
+<label for="age">Patient age</label>
+<input id="age" name="age" type="number" min="0" max="120" required placeholder="Age">
+
+<label for="service">Service required</label>
+<select id="service" name="service" required>
+<option value="">Choose a service</option>
+<option>Home nursing</option>
+<option>Post-hospital nursing support</option>
+<option>Doctor-prescribed nursing care</option>
+</select>
+
+<label for="duration">Preferred duration</label>
+<select id="duration" name="duration" required>
+<option value="">Select hours</option>
+<option>2 hours</option>
+<option>4 hours</option>
+<option>8 hours</option>
+<option>12 hours</option>
+</select>
+
+<label for="date">Preferred date</label>
+<input id="date" name="date" type="date" required>
+
+<label for="shift">Preferred shift</label>
+<select id="shift" name="shift" required>
+<option value="">Select shift</option>
+<option>Morning</option>
+<option>Afternoon</option>
+<option>Night</option>
+</select>
+
+<label for="area">Town / service area</label>
+<input id="area" name="area" maxlength="100" required placeholder="e.g. Mancherial">
+
+<label for="contact">Contact number</label>
+<input id="contact" name="contact" type="tel"
+       inputmode="numeric" pattern="[0-9]{10}"
+       maxlength="10" required placeholder="10-digit mobile number">
+
+<label for="notes">Additional information (optional)</label>
+<textarea id="notes" name="notes" maxlength="300" rows="3"
+placeholder="Non-sensitive scheduling details only"></textarea>
+
+<label style="font-weight:normal">
+<input type="checkbox" id="consent" required style="width:auto">
+I agree to be contacted about this service request.
+</label>
+
+<p class="small">Demo only. Do not enter real patient details or medical information. This form does not transmit or securely save bookings.</p>
+
+<button type="submit">Preview Booking Request</button>
+</form>
+
+<div id="result" role="status" aria-live="polite">
+<h3>Demo request prepared ✓</h3>
+<p id="summary"></p>
+<p>This is only a local preview. No nurse has been assigned and no booking has been sent.</p>
+<button type="button" id="reset">Create another demo</button>
+</div>
+</div>
+</main>
+
+<script>
+const form = document.getElementById("bookingForm");
+const dateField = document.getElementById("date");
+const today = new Date();
+const localToday = [
+  today.getFullYear(),
+  String(today.getMonth()+1).padStart(2,"0"),
+  String(today.getDate()).padStart(2,"0")
+].join("-");
+dateField.min = localToday;
+
+form.addEventListener("submit", function(event) {
+  event.preventDefault();
+  if (!form.reportValidity()) return;
+
+  const data = new FormData(form);
+  const summary = [
+    "Patient: " + data.get("patient"),
+    "Service: " + data.get("service"),
+    "Duration: " + data.get("duration"),
+    "Date: " + data.get("date"),
+    "Shift: " + data.get("shift"),
+    "Area: " + data.get("area")
+  ];
+
+  document.getElementById("summary").textContent = summary.join(" · ");
+  form.style.display = "none";
+  document.getElementById("result").style.display = "block";
+});
+
+document.getElementById("reset").addEventListener("click", function() {
+  form.reset();
+  form.style.display = "block";
+  document.getElementById("result").style.display = "none";
+  dateField.min = localToday;
+});
+</script>
+</body>
+</html>
