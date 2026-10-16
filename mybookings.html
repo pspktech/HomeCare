@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Bookings | HomeCare</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f7f6;
+  color: #18332e;
+}
+
+header {
+  background: #087f6e;
+  color: white;
+  padding: 18px 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+header h2 { margin: 0; font-size: 21px; }
+
+button, a { cursor: pointer; }
+
+.back {
+  background: white;
+  color: #087f6e;
+  border: 0;
+  padding: 11px 14px;
+  border-radius: 9px;
+  font-weight: bold;
+}
+
+main {
+  max-width: 900px;
+  margin: auto;
+  padding: 25px 16px;
+}
+
+.intro {
+  color: #637771;
+  line-height: 1.6;
+}
+
+#status {
+  color: #087f6e;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.booking-list {
+  display: grid;
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.booking {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 5px 20px #153c3210;
+}
+
+.booking h3 { margin-top: 0; }
+
+.detail {
+  margin: 10px 0;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.badge {
+  display: inline-block;
+  padding: 7px 12px;
+  border-radius: 20px;
+  background: #fff0c2;
+  color: #785500;
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: capitalize;
+}
+
+.empty {
+  background: white;
+  border-radius: 16px;
+  padding: 25px;
+  text-align: center;
+}
+
+.book-btn {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 12px 16px;
+  background: #087f6e;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.refresh {
+  background: #087f6e;
+  color: white;
+  border: 0;
+  border-radius: 9px;
+  padding: 11px 15px;
+  font-weight: bold;
+}
+
+footer {
+  text-align: center;
+  color: #637771;
+  padding: 25px 12px;
+  font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>🏡 HomeCare</h2>
+  <a href="dashboard.html">
+    <button class="back" type="button">← Dashboard</button>
+  </a>
+</header>
+
+<main>
+  <h1>My Bookings 📋</h1>
+  <p class="intro">
+    Track your HomeCare service requests and check their current status.
+  </p>
+
+  <button class="refresh" id="refreshBtn" type="button">
+    ↻ Refresh Bookings
+  </button>
+
+  <p id="status" role="status" aria-live="polite">
+    Checking your login...
+  </p>
+
+  <div class="booking-list" id="bookingList"></div>
+</main>
+
+<footer>HomeCare · Care for your home and family 💚</footer>
+
+<script type="module">
+import { initializeApp }
+  from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+
+// Use the SAME working Firebase configuration as login.html.
+const firebaseConfig = {
+  apiKey: "AIzaSyC80FOc0oUOJwUbQtZkEZU_TnKH9JujpG0",
+  authDomain: "homecare-68c01.firebaseapp.com",
+  projectId: "homecare-68c01",
+  appId: "1:18183777711:web:307c5f92fa9ef00a32135a"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const statusEl = document.getElementById("status");
+const bookingList = document.getElementById("bookingList");
+const refreshBtn = document.getElementById("refreshBtn");
+
+let currentUser = null;
+let loading = false;
+
+function addTextElement(parent, tag, text, className = "") {
+  const element = document.createElement(tag);
+  element.textContent = text;
+
+  if (className) {
+    element.className = className;
+  }
+
+  parent.appendChild(element);
+  return element;
+}
+
+function formatDate(dateString) {
+  if (!dateString) return "Not specified";
+
+  const parts = dateString.split("-");
+
+  if (parts.length !== 3) return dateString;
+
+  return `${parts[2]}-${parts[1]}-${parts[0]}`;
+}
+
+function renderBooking(doc) {
+  const data = doc.data();
+
+  const card = document.createElement("article");
+  card.className = "booking";
+
+  addTextElement(
+    card,
+    "h3",
+    data.service || "HomeCare Service"
+  );
+
+  const badge = addTextElement(
+    card,
+    "span",
+    data.status || "pending",
+    "badge"
+  );
+
+  const details = [
+    ["Booking Reference", doc.id],
+    ["Preferred Date", formatDate(data.date)],
+    ["Preferred Time", data.time || "Not specified"],
+    ["Contact Phone", data.phone || "Not specified"],
+    ["Service Address", data.address || "Not specified"]
+  ];
+
+  details.forEach(([label, value]) => {
+    const line = document.createElement("p");
+    line.className = "detail";
+
+    const strong = document.createElement("strong");
+    strong.textContent = label + ": ";
+
+    line.appendChild(strong);
+    line.appendChild(document.createTextNode(value));
+    card.appendChild(line);
+  });
+
+  bookingList.appendChild(card);
+}
+
+async function loadBookings() {
+  if (!currentUser || loading) return;
+
+  loading = true;
+  refreshBtn.disabled = true;
+  statusEl.textContent = "Loading your bookings...";
+  bookingList.replaceChildren();
+
+  try {
+    const bookingsQuery = query(
+      collection(db, "bookings"),
+      where("uid", "==", currentUser.uid)
+    );
+
+    const snapshot = await getDocs(bookingsQuery);
+
+    if (snapshot.empty) {
+      statusEl.textContent = "You haven't booked any services yet.";
+
+      const empty = document.createElement("div");
+      empty.className = "empty";
+
+      addTextElement(
+        empty,
+        "p",
+        "Ready to get started with HomeCare?"
+      );
+
+      const link = document.createElement("a");
+      link.href = "services.html";
+      link.className = "book-btn";
+      link.textContent = "Explore Services";
+
+      empty.appendChild(link);
+      bookingList.appendChild(empty);
+      return;
+    }
+
+    const docs = snapshot.docs.sort((a, b) => {
+      const aTime = a.data().createdAt?.toMillis?.() || 0;
+      const bTime = b.data().createdAt?.toMillis?.() || 0;
+      return bTime - aTime;
+    });
+
+    docs.forEach(renderBooking);
+
+    statusEl.textContent =
+      `Found ${docs.length} booking${docs.length === 1 ? "" : "s"}.`;
+
+  } catch (error) {
+    console.error("Load bookings error:", error);
+
+    statusEl.textContent =
+      error.code === "permission-denied"
+        ? "Access denied. Please check your Firestore booking read rules."
+        : "Could not load bookings. Please check your internet and try again.";
+
+  } finally {
+    loading = false;
+    refreshBtn.disabled = false;
+  }
+}
+
+refreshBtn.addEventListener("click", loadBookings);
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.replace("login.html");
+    return;
+  }
+
+  currentUser = user;
+  loadBookings();
+});
+</script>
+
+</body>
+</html>
