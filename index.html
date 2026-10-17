@@ -3,567 +3,260 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#087f63">
+  <meta name="theme-color" content="#078365">
+  <meta name="description" content="Trusted home care services for your family.">
   <title>HomeCare | Care That Feels Like Home</title>
-  <meta name="description" content="Book trusted home cleaning, elder care, patient care and nursing services with HomeCare.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --green: #078365;
-      --dark: #073f3b;
-      --mint: #e9f8f2;
-      --text: #173b3b;
-      --muted: #657b79;
-      --white: #ffffff;
-      --shadow: 0 8px 28px rgba(5, 75, 58, .09);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: Inter, sans-serif;
-      color: var(--text);
-      background: #fff;
-      line-height: 1.6;
-    }
-
-    a { text-decoration: none; color: inherit; }
-    button, input, textarea { font: inherit; }
-
-    .container {
-      width: min(1120px, 90%);
-      margin: auto;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(255,255,255,.94);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid #edf3f0;
-    }
-
-    nav {
-      min-height: 76px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .logo {
-      font-size: 27px;
-      font-weight: 800;
-      color: var(--dark);
-      letter-spacing: -1px;
-    }
-
-    .logo span { color: var(--green); }
-
-    .navlinks {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .navlinks a:hover { color: var(--green); }
-
-    .nav-actions { display: flex; gap: 10px; }
-
-    .btn {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 21px;
-      border: 1px solid var(--green);
-      border-radius: 30px;
-      background: var(--green);
-      color: white;
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      transition: .25s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px #07836535;
-    }
-
-    .btn.outline {
-      background: transparent;
-      color: var(--green);
-    }
-
-    .hero {
-      background: linear-gradient(115deg, #effaf5, #fff 65%);
-      padding: 65px 0;
-      overflow: hidden;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 45px;
-      align-items: center;
-    }
-
-    .eyebrow {
-      display: inline-block;
-      padding: 7px 13px;
-      background: #d9f4e8;
-      color: #087453;
-      border-radius: 30px;
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: .5px;
-      margin-bottom: 18px;
-    }
-
-    h1 {
-      font-size: clamp(35px, 4.5vw, 54px);
-      line-height: 1.12;
-      letter-spacing: -2px;
-      color: var(--dark);
-      margin-bottom: 20px;
-    }
-
-    .hero p {
-      max-width: 510px;
-      color: var(--muted);
-      margin-bottom: 25px;
-    }
-
-    .hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
-
-    .hero-image {
-      min-height: 380px;
-      border-radius: 30px;
-      background:
-        linear-gradient(0deg, #073f3b35, transparent 50%),
-        url("https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1000&q=85")
-        center / cover;
-      box-shadow: var(--shadow);
-      animation: floatIn .8s ease both;
-    }
-
-    .trust-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 18px;
-      margin-top: 30px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .trust-row span { color: var(--green); }
-
-    section { padding: 75px 0; }
-
-    .section-heading { margin-bottom: 30px; }
-
-    .section-heading small {
-      color: var(--green);
-      font-weight: 800;
-      letter-spacing: 2px;
-    }
-
-    h2 {
-      color: var(--dark);
-      font-size: clamp(27px, 3vw, 36px);
-      line-height: 1.25;
-      margin: 8px 0;
-      letter-spacing: -1px;
-    }
-
-    .section-heading p { color: var(--muted); }
-
-    .service-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-    }
-
-    .service-card {
-      padding: 25px 21px;
-      border: 1px solid #e8f0ed;
-      border-radius: 20px;
-      background: white;
-      box-shadow: var(--shadow);
-      transition: transform .25s, border-color .25s;
-    }
-
-    .service-card:hover {
-      transform: translateY(-8px);
-      border-color: #8bd8bd;
-    }
-
-    .service-icon {
-      width: 56px;
-      height: 56px;
-      display: grid;
-      place-items: center;
-      background: var(--mint);
-      border-radius: 17px;
-      font-size: 28px;
-      margin-bottom: 17px;
-    }
-
-    .service-card h3 { margin-bottom: 8px; font-size: 18px; }
-    .service-card p { color: var(--muted); font-size: 13px; min-height: 63px; }
-    .service-card a { color: var(--green); font-weight: 800; font-size: 13px; }
-
-    .why { background: #f1faf6; }
-
-    .why-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 35px;
-      align-items: center;
-    }
-
-    .feature {
-      display: flex;
-      gap: 14px;
-      margin-top: 23px;
-    }
-
-    .feature-icon {
-      min-width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background: var(--green);
-      color: white;
-      display: grid;
-      place-items: center;
-      font-size: 20px;
-    }
-
-    .feature p { color: var(--muted); font-size: 14px; }
-
-    .family-image {
-      width: 100%;
-      min-height: 300px;
-      border-radius: 26px;
-      object-fit: cover;
-      box-shadow: var(--shadow);
-    }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: .85fr 1.15fr;
-      gap: 24px;
-    }
-
-    .contact-info, .contact-form {
-      padding: 32px;
-      border-radius: 24px;
-    }
-
-    .contact-info { background: var(--dark); color: white; }
-    .contact-info h2 { color: white; }
-    .contact-info p { color: #d1e8e0; margin: 12px 0 24px; }
-    .contact-info a { display: block; margin: 15px 0; overflow-wrap: anywhere; }
-
-    .contact-form {
-      border: 1px solid #e8f0ed;
-      box-shadow: var(--shadow);
-    }
-
-    .contact-form input, .contact-form textarea,
-    .contact-form select {
-      width: 100%;
-      padding: 13px 14px;
-      border: 1px solid #dce9e4;
-      border-radius: 12px;
-      margin-bottom: 13px;
-      background: #fbfefd;
-      color: var(--text);
-      outline-color: var(--green);
-    }
-
-    .contact-form textarea { min-height: 110px; resize: vertical; }
-    .contact-form .btn { width: 100%; }
-
-    footer {
-      background: #052f2d;
-      color: #d8eee6;
-      padding: 28px 0;
-      font-size: 13px;
-    }
-
-    .footer-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-
-    .footer-row a { margin-right: 15px; }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(22px);
-      transition: opacity .7s ease, transform .7s ease;
-    }
-
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    @keyframes floatIn {
-      from { opacity: 0; transform: translateY(18px) scale(.98); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    @media (max-width: 850px) {
-      .navlinks { gap: 14px; }
-      .service-grid { grid-template-columns: repeat(2, 1fr); }
-      .hero-grid, .why-grid { grid-template-columns: 1fr; }
-      .hero-image { min-height: 330px; }
-      .contact-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 560px) {
-      .container { width: 91%; }
-      nav { min-height: 68px; flex-wrap: wrap; padding: 12px 0; }
-      .logo { font-size: 23px; }
-      .navlinks { order: 3; width: 100%; justify-content: space-between; gap: 8px; font-size: 12px; }
-      .nav-actions .btn { padding: 9px 13px; font-size: 12px; }
-      .hero { padding: 42px 0; }
-      h1 { font-size: 38px; letter-spacing: -1.5px; }
-      .hero-image { min-height: 260px; }
-      section { padding: 52px 0; }
-      .service-grid { grid-template-columns: 1fr; gap: 14px; }
-      .service-card p { min-height: auto; margin-bottom: 12px; }
-      .contact-info, .contact-form { padding: 23px; }
-      .trust-row { gap: 10px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
-        scroll-behavior: auto !important;
-      }
-    }
-  </style>
+  <!-- Separate CSS file -->
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-<header>
-  <nav class="container">
-    <a class="logo" href="index.html">⌂ Home<span>Care</span></a>
 
-    <div class="navlinks">
-      <a href="#home">Home</a>
-      <a href="#services">Services</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </div>
+  <!-- HEADER -->
+  <header class="site-header">
+    <nav class="navbar container">
+      <a class="logo" href="index.html">
+        <span class="logo-icon">✚</span> HomeCare
+      </a>
 
-    <div class="nav-actions">
-      <a class="btn outline" href="login.html">Login</a>
-      <a class="btn" href="register.html">Sign Up</a>
-    </div>
-  </nav>
-</header>
-
-<main>
-  <section class="hero" id="home">
-    <div class="container hero-grid">
-      <div>
-        <span class="eyebrow">✓ TRUSTED HOME SERVICES</span>
-        <h1>Care That Feels Like Home.</h1>
-        <p>
-          Your home and your loved ones deserve the best care.
-          Find convenient home cleaning, elder care, patient care
-          and nursing services with HomeCare.
-        </p>
-        <div class="hero-buttons">
-          <a class="btn" href="services.html">Book a Service →</a>
-          <a class="btn outline" href="#services">Explore Services</a>
-        </div>
-        <div class="trust-row">
-          <span>✓ Trusted Care</span>
-          <span>◷ Convenient Booking</span>
-          <span>♡ Customer First</span>
-        </div>
-      </div>
-      <div class="hero-image" role="img" aria-label="Home cleaning professional"></div>
-    </div>
-  </section>
-
-  <section id="services">
-    <div class="container">
-      <div class="section-heading reveal">
-        <small>OUR SERVICES</small>
-        <h2>How Can We Help You?</h2>
-        <p>Choose the care your home and family need.</p>
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
       </div>
 
-      <div class="service-grid">
-        <article class="service-card reveal">
-          <div class="service-icon">🧹</div>
-          <h3>Home Cleaning</h3>
-          <p>Make your home fresh, tidy and comfortable.</p>
-          <a href="services.html">Book now →</a>
-        </article>
-
-        <article class="service-card reveal">
-          <div class="service-icon">👵</div>
-          <h3>Elder Care</h3>
-          <p>Thoughtful support and everyday assistance for seniors.</p>
-          <a href="services.html">Book now →</a>
-        </article>
-
-        <article class="service-card reveal">
-          <div class="service-icon">🩺</div>
-          <h3>Patient Care</h3>
-          <p>Arrange care support for loved ones at home.</p>
-          <a href="services.html">Book now →</a>
-        </article>
-
-        <article class="service-card reveal">
-          <div class="service-icon">👩‍⚕️</div>
-          <h3>Nursing Care</h3>
-          <p>Request nursing support based on your care needs.</p>
-          <a href="services.html">Book now →</a>
-        </article>
+      <div class="nav-actions">
+        <a class="btn btn-outline" href="login.html">Login</a>
+        <a class="btn btn-primary" href="register.html">Join Us</a>
       </div>
-    </div>
-  </section>
+    </nav>
+  </header>
 
-  <section class="why" id="about">
-    <div class="container why-grid">
-      <div class="reveal">
-        <div class="section-heading">
-          <small>WHY HOMECARE</small>
-          <h2>A Little More Care. A Lot More Comfort.</h2>
-          <p>We aim to make booking home services simple and convenient.</p>
-        </div>
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-content reveal">
+          <span class="eyebrow">💚 CARE YOU CAN TRUST</span>
 
-        <div class="feature">
-          <div class="feature-icon">✓</div>
-          <div><h3>Care-Focused Service</h3><p>Support designed around your needs.</p></div>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">♡</div>
-          <div><h3>Easy Online Booking</h3><p>Submit a request from your phone or computer.</p></div>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">⌂</div>
-          <div><h3>Comfort at Home</h3><p>Find services without unnecessary hassle.</p></div>
-        </div>
-      </div>
+          <h1>Care that feels<br>like <span>home.</span></h1>
 
-      <img class="family-image reveal"
-        src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=1000&q=85"
-        alt="Family spending time together at home"
-        loading="lazy">
-    </div>
-  </section>
-
-  <section id="contact">
-    <div class="container">
-      <div class="section-heading reveal">
-        <small>CONTACT US</small>
-        <h2>We're Here to Help.</h2>
-        <p>Have a question about a service? Get in touch with us.</p>
-      </div>
-
-      <div class="contact-grid">
-        <div class="contact-info reveal">
-          <h2>Let's Talk</h2>
-          <p>Contact the HomeCare team for service information and booking help.</p>
-          <a href="services.html">🏠 Explore our services</a>
-          <a href="mybookings.html">📅 View my bookings</a>
-          <a href="login.html">👤 Sign in to your account</a>
-        </div>
-
-        <form class="contact-form reveal" id="contactForm">
-          <input id="contactName" type="text" placeholder="Your name" required>
-          <input id="contactPhone" type="tel" inputmode="numeric"
-            pattern="[0-9]{10}" maxlength="10"
-            placeholder="10-digit mobile number" required>
-          <select id="contactService" required>
-            <option value="">Select a service</option>
-            <option>Home Cleaning</option>
-            <option>Elder Care</option>
-            <option>Patient Care</option>
-            <option>Nursing Care</option>
-          </select>
-          <textarea id="contactMessage" placeholder="How can we help?" required></textarea>
-          <button class="btn" type="submit">Send Enquiry →</button>
-          <p style="font-size:12px;color:#657b79;margin-top:10px">
-            This form opens WhatsApp with your enquiry; it does not send it automatically.
+          <p class="hero-copy">
+            Compassionate care for your loved ones, right at home.
+            Because your family deserves comfort, dignity and care.
           </p>
-        </form>
+
+          <div class="hero-buttons">
+            <a class="btn btn-primary" href="services.html">
+              Explore Services →
+            </a>
+            <a class="btn btn-outline" href="#about">
+              Discover More
+            </a>
+          </div>
+
+          <div class="trust-row">
+            <span>✓ Trusted Care</span>
+            <span>✓ Family First</span>
+            <span>✓ Easy Booking</span>
+          </div>
+        </div>
+
+        <div class="hero-image-wrap reveal">
+          <img
+            class="hero-image"
+            src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1000&q=85"
+            alt="Professional home care service"
+          >
+          <div class="image-label">
+            <span class="status-dot"></span>
+            <div>
+              <strong>Care starts here</strong>
+              <p>Your family, our priority</p>
+            </div>
+          </div>
+        </div>
       </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services-section" id="services">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="eyebrow">OUR SERVICES</span>
+          <h2>Care for every <span>need.</span></h2>
+          <p>Reliable support to help your loved ones feel safe and comfortable.</p>
+        </div>
+
+        <div class="service-grid">
+          <article class="service-card reveal">
+            <div class="service-icon">🏡</div>
+            <h3>Home Cleaning</h3>
+            <p>Keep your home fresh, clean and comfortable with helping hands.</p>
+            <a class="service-link" href="services.html">Explore service →</a>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-icon">👵</div>
+            <h3>Elder Care</h3>
+            <p>Thoughtful daily support for seniors with dignity and respect.</p>
+            <a class="service-link" href="services.html">Explore service →</a>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-icon">🩺</div>
+            <h3>Patient Care</h3>
+            <p>Comfort-focused assistance for loved ones who need extra care.</p>
+            <a class="service-link" href="services.html">Explore service →</a>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-icon">💚</div>
+            <h3>Nursing Care</h3>
+            <p>Support for care needs at home, based on your family's requirements.</p>
+            <a class="service-link" href="services.html">Explore service →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="why-section" id="about">
+      <div class="container why-grid">
+        <div class="why-image-wrap reveal">
+          <img
+            class="family-image"
+            src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=1000&q=85"
+            alt="Family spending quality time together"
+            loading="lazy"
+          >
+        </div>
+
+        <div class="why-content reveal">
+          <span class="eyebrow">WHY HOMECARE?</span>
+          <h2>Because your loved ones deserve <span>the best.</span></h2>
+          <p>
+            Finding care should feel simple. HomeCare helps you explore
+            services and book support for your family's needs.
+          </p>
+
+          <div class="feature">
+            <span class="feature-icon">✓</span>
+            <div>
+              <h3>Easy Service Booking</h3>
+              <p>Explore services and submit your booking online.</p>
+            </div>
+          </div>
+
+          <div class="feature">
+            <span class="feature-icon">♡</span>
+            <div>
+              <h3>Care with Compassion</h3>
+              <p>We put comfort, respect and family needs first.</p>
+            </div>
+          </div>
+
+          <a class="btn btn-primary" href="services.html">Find Your Service →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta reveal">
+          <span class="eyebrow">LET'S MAKE LIFE EASIER</span>
+          <h2>A little care can mean everything.</h2>
+          <p>Find the right service for your family today.</p>
+          <a class="btn btn-light" href="services.html">Book a Service →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact-section" id="contact">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="eyebrow">GET IN TOUCH</span>
+          <h2>We're here to <span>help.</span></h2>
+          <p>Tell us what kind of support your family needs.</p>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-info reveal">
+            <h3>Let's talk about care.</h3>
+            <p>Explore our services or sign in to manage your bookings.</p>
+
+            <a href="services.html">🏡 &nbsp; Browse Services</a>
+            <a href="mybookings.html">📋 &nbsp; My Bookings</a>
+            <a href="login.html">👤 &nbsp; Your Account</a>
+          </div>
+
+          <form class="contact-form reveal" id="contactForm">
+            <label for="contactName">Your Name</label>
+            <input id="contactName" name="name" type="text"
+              placeholder="Enter your name" required>
+
+            <label for="contactPhone">Phone Number</label>
+            <input id="contactPhone" name="phone" type="tel"
+              inputmode="numeric" pattern="[0-9]{10}" maxlength="10"
+              placeholder="10-digit mobile number" required>
+
+            <label for="contactService">Service Required</label>
+            <select id="contactService" name="service" required>
+              <option value="">Choose a service</option>
+              <option>Home Cleaning</option>
+              <option>Elder Care</option>
+              <option>Patient Care</option>
+              <option>Nursing Care</option>
+              <option>Other Enquiry</option>
+            </select>
+
+            <label for="contactMessage">Message</label>
+            <textarea id="contactMessage" name="message" rows="4"
+              placeholder="Tell us how we can help"></textarea>
+
+            <button class="btn btn-primary submit-btn" type="submit">
+              Send Enquiry →
+            </button>
+
+            <p class="form-note">
+              This form opens WhatsApp to prepare your enquiry. It won't
+              send automatically.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <a class="logo footer-logo" href="index.html">
+        <span class="logo-icon">✚</span> HomeCare
+      </a>
+      <p>Care that feels like home. 💚</p>
+      <div class="footer-links">
+        <a href="services.html">Services</a>
+        <a href="login.html">Login</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <p>© <span id="year"></span> HomeCare</p>
     </div>
-  </section>
-</main>
+  </footer>
 
-<footer>
-  <div class="container footer-row">
-    <a class="logo" href="#home" style="color:white">⌂ Home<span>Care</span></a>
-    <div>
-      <a href="#home">Home</a>
-      <a href="#services">Services</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </div>
-    <p>© <span id="year"></span> HomeCare. Made with care.</p>
-  </div>
-</footer>
+  <!-- MOBILE BOOKING BUTTON -->
+  <a class="mobile-book" href="services.html">
+    🏡 Book a Service <span>→</span>
+  </a>
 
-<script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12 });
-
-  document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
-
-  document.getElementById("contactForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-
-    // Replace this with your official HomeCare WhatsApp number.
-    const HOMECARE_WHATSAPP = "91XXXXXXXXXX";
-
-    if (HOMECARE_WHATSAPP.includes("X")) {
-      alert("Contact form ready! Add your official HomeCare WhatsApp number in the code.");
-      return;
-    }
-
-    const message = [
-      "HomeCare Enquiry",
-      "Name: " + document.getElementById("contactName").value,
-      "Phone: " + document.getElementById("contactPhone").value,
-      "Service: " + document.getElementById("contactService").value,
-      "Message: " + document.getElementById("contactMessage").value
-    ].join("\n");
-
-    window.open(
-      "https://wa.me/" + HOMECARE_WHATSAPP + "?text=" + encodeURIComponent(message),
-      "_blank",
-      "noopener,noreferrer"
-    );
-  });
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
